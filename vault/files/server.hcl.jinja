@@ -5,6 +5,12 @@ backend "s3" {
 }
 {% endif -%}
 
+{%- if vault.backend and vault.backend.type == "file" %}
+backend "file" {
+  path = "{{ vault.backend.path }}"
+}
+{% endif -%}
+
 listener "{{ vault.listen_protocol }}" {
   address = "{{ vault.listen_address }}:{{ vault.listen_port }}"
   tls_disable = {{ vault.strict_tls }}
